@@ -24,13 +24,19 @@ html
     script.
       $(document).ready(function(){
         $('##{active}').addClass('active');
+        var lastPrice = 0
+        function updateLastPrice(){
+          $.ajax({url : 'https://market-api.merit.me/stats', success: function(json){
+          lastPrice = json.vwap.toFixed(0);
+          $("#lastPrice").text(lastPrice/100000000);
+        }});
+        };
         function update_stats(){   
           $.ajax({url: '/ext/summary', success: function(json){
             $("#supply").text(json.data[0].supply);
             $("#difficulty").text(json.data[0].difficulty);
             $("#difficultyHybrid").text(json.data[0].difficultyHybrid);
             $("#hashrate").text(json.data[0].hashrate);
-            $("#lastPrice").text(json.data[0].lastPrice.toFixed(8));
             $("#lblConnections").text(json.data[0].connections + ' connections');
             $("#lblBlockcount").text(json.data[0].blockcount + ' blocks');
             $("#lblX1").text(' ');
@@ -50,8 +56,10 @@ html
           $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust();
         });
         setInterval( function() {
-          update_stats();
+        updateLastPrice();
+        update_stats();
         }, 60000);
+        updateLastPrice();
         update_stats();
       });
   body
@@ -141,7 +149,7 @@ html
               else if settings.nethash_units == 'P'
                 strong #{settings.locale.network} (PH/s)
               else if settings.nethash_units == 'H'
-                strong #{settings.locale.network} (H/s)
+                strong #{settings.locale.network} (cycles/s)
             .panel-body
               if settings.index.difficulty == 'Hybrid'
                label#hashrate - 
@@ -176,7 +184,7 @@ html
         .col-md-2
           .panel.panel-default.hidden-sm.hidden-xs
             .panel-heading
-              strong #{settings.markets.exchange} Price
+              strong #{settings.markets.exchange} Avg Market Price
             .panel-body
               if settings.index.difficulty == 'Hybrid'
                label#lastPrice -
@@ -196,8 +204,7 @@ html
         if settings.display.twitter
           ul.nav.navbar-nav
             li.pull-left
-              a#twitter-icon(href="https://twitter.com/#{settings.twitter}", target='_blank')
-                span.glyphicon.fa.fa-twitter
+              a.navbar-link(href='merit:M91QJzKmt43q18YC5HHBzq3ofpBfACYvSE', target='_blank') Like this? Donate to Overcooked Panda
         if settings.display.facebook
           ul.nav.navbar-nav
             li.pull-left
@@ -212,7 +219,7 @@ html
         ul.nav
           li.text-center(style='margin-left:80px;margin-right:80px;')
             p(style='margin-top:15px;') 
-              a.navbar-link(href='https://github.com/iquidus/explorer', target='_blank') Powered by Iquidus Explorer 
+              a.navbar-link(href='https://github.com/iquidus/explorer', target='_blank') Powered by Iquidus Explorer
       span.connections
         label#lblBlockcount.label.label-default -
         label#lblConnections.label.label-default -
