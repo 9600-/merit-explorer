@@ -8,7 +8,7 @@ block content
   .col-xs-12.col-md-10.col-md-offset-1
     .panel.panel-default.panel-address-summary
       .panel-heading(style='position:relative;')        
-        a(href='https://merit.disifi.com/wallet/#{address.a_id}', target='_blank') #{address.a_id}
+        a(href='https://merit.disifi.com/wallet/#{address.a_id}', target='_blank') #{address.a_id} #{address.alias}
         if settings.labels[address.a_id]
           if settings.labels[address.a_id].type  
             label(class='label label-#{settings.labels[address.a_id].type} pull-right hidden-xs', style='margin-left:15px;')
