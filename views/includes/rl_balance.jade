@@ -20,7 +20,7 @@
           td(style='text-align:center;') 
             =count
           td
-            =item.alias
+            a(href='/address/#{item.alias}') #{item.alias}
           td 
             a(href='/address/#{item.a_id}') #{item.a_id}
             include ./rl_labels.jade
