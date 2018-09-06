@@ -6,6 +6,7 @@
       tr
         th(style='text-align:center;') 
           span.fa.fa-flag-checkered
+        th Alias
         th #{settings.locale.tx_address} 
         th.hidden-xs #{settings.locale.rl_received} (#{settings.symbol})
     tbody
@@ -16,6 +17,8 @@
         tr
           td(style='text-align:center;') 
             =count
+          td
+            =item.alias
           td
             a(href='/address/#{item.a_id}') #{item.a_id}
             include ./rl_labels.jade
