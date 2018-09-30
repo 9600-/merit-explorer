@@ -84,6 +84,15 @@ app.use('/ext/getbalance/:hash', async function (req, res) {
   }
 })
 
+app.use('/ext/getinvbalance/:hash', async function (req, res) {
+  const address = await db.get_address(req.params.hash)
+  if (address) {
+    res.send(((address.inviteBalance / 100000000) - 1).toString().replace(/(^-+)/mg, ''))
+  } else {
+    res.send({ error: 'address not found.', hash: req.params.hash })
+  }
+})
+
 app.use('/ext/getdistribution', async function (req, res) {
   try {
     const richlist = await db.get_richlist(settings.coin)
