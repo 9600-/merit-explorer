@@ -1,26 +1,13 @@
-Iquidus Explorer - 1.6.1
+Merit Explorer - 2.0.0
 ================
 
-An open source block explorer written in node.js.
-
-### See it in action
-
-*  [Deutsche eMark](http://b.emark.tk/)
-*  [Sphere](http://sphere.iquidus.io)
-*  [Vertcoin](http://explorer.vertcoin.info/)
-*  [Vivo](http://vivo.explorerz.top:3003)
-*  [Florincoin](https://florincoin.info/info)
-*  [Maxcoin Explorer 1](https://explorer.maxcoinproject.net/)
-*  [Maxcoin Explorer 2](https://explorer2.maxcoinproject.net/)
-
-
-*note: If you would like your instance mentioned here contact me*
+A block explorer based on the iquidus block explorer written in node.js.
 
 ### Requires
 
-*  node.js >= 0.10.28
+*  node.js >= 8.x
 *  mongodb 2.6.x
-*  *coind
+*  meritd
 
 ### Create database
 
@@ -76,7 +63,6 @@ sync.js (located in scripts/) is used for updating the local databases. This scr
 
     database: (required)
     index [mode] Main index: coin info/stats, transactions & addresses
-    market       Market data: summaries, orderbooks, trade history & chartdata
 
     mode: (required for index database only)
     update       Updates index from last sync to current block
@@ -85,7 +71,6 @@ sync.js (located in scripts/) is used for updating the local databases. This scr
 
     notes:
     * 'current block' is the latest created block when script is executed.
-    * The market database only supports (& defaults to) reindex mode.
     * If check mode finds missing data(ignoring new data since last sync),
       index_timeout in settings.json is set too low.
 

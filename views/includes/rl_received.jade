@@ -17,8 +17,14 @@
         tr
           td(style='text-align:center;') 
             =count
-          td
-            a(href='/address/#{item.alias}') #{item.alias}
+          if item.alias == ''
+            if item.a_id == 'ST2HYE5KMszAdBcGo3kw7Qsb9u1nRQhac4'
+              td Merit Foundation
+            else
+              td anonymous
+          else
+            td 
+              a(href='/address/#{item.alias}') #{item.alias}
           td
             a(href='/address/#{item.a_id}') #{item.a_id}
             include ./rl_labels.jade

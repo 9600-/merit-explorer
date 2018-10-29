@@ -33,7 +33,7 @@ html
         };
         function update_stats(){   
           $.ajax({url: '/ext/summary', success: function(json){
-            $("#supply").text(json.data[0].supply);
+            $("#supply").html(json.data[0].supply + ' Available<br/>' + json.data[0].lockedSupply + ' Locked');
             $("#difficulty").text(json.data[0].difficulty);
             $("#difficultyHybrid").text(json.data[0].difficultyHybrid);
             $("#hashrate").text(json.data[0].hashrate);
@@ -123,6 +123,10 @@ html
                 a.navbar-link(href='/richlist')
                   span.fa.fa-btc
                   span.menu-text #{settings.locale.menu_richlist}
+            li#market
+              a.navbar-link.loading(href='https://market.merit.me',target='_blank')
+                span.fa.fa-line-chart
+                span.menu-text Market
             if settings.display.markets == true
               li#markets
                 a.navbar-link.loading(href='/markets/#{settings.markets.default}') 
@@ -205,6 +209,8 @@ html
           ul.nav.navbar-nav
             li.pull-left
               a.navbar-link(href='merit:M91QJzKmt43q18YC5HHBzq3ofpBfACYvSE', target='_blank') Like this? Donate to Overcooked Panda
+            li.pull-left
+              a.navbar-link(href='merit:MPF2jmri4p2Ug8Uo9DGz1AWdNdmGWUhdFV', target='_blank') or @jostrander
         if settings.display.facebook
           ul.nav.navbar-nav
             li.pull-left
@@ -219,7 +225,7 @@ html
         ul.nav
           li.text-center(style='margin-left:80px;margin-right:80px;')
             p(style='margin-top:15px;') 
-              a.navbar-link(href='https://github.com/iquidus/explorer', target='_blank') Powered by Iquidus Explorer
+              a.navbar-link(href='https://github.com/iquidus/explorer', target='_blank') Powered by what remains of Iquidus Explorer
       span.connections
         label#lblBlockcount.label.label-default -
         label#lblConnections.label.label-default -

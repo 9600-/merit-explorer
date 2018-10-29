@@ -2,14 +2,20 @@ extends layout
 
 block content
   - var balance = (address.received - address.sent) / 100000000;
-  - var sent = address.sent /100000000
+  - var sent = address.sent / 100000000
   - var received = address.received / 100000000
+  - var inviteSent = address.inviteSent / 100000000
+  - var inviteReceived = address.inviteReceived / 100000000
+  - var inviteBalance = address.inviteBalance / 100000000
     img.qrcode.pull-right.hidden-xs(src='/qr/#{address.a_id}')
   .col-xs-12.col-md-10.col-md-offset-1
     .panel.panel-default.panel-address-summary
       .panel-heading(style='position:relative;')        
         if address.alias == ""
-          a(href='https://merit.disifi.com/wallet/#{address.a_id}', target='_blank') anonymous (#{address.a_id})
+          if address.a_id == 'ST2HYE5KMszAdBcGo3kw7Qsb9u1nRQhac4'
+            a(href='https://merit.me', target='_blank') Merit Foundation (#{address.a_id})
+          else
+            a(href='https://merit.disifi.com/wallet/#{address.a_id}', target='_blank') anonymous (#{address.a_id})
         else
           a(href='https://merit.disifi.com/wallet/#{address.a_id}', target='_blank') #{address.alias} (#{address.a_id})
         if settings.labels[address.a_id]
@@ -26,22 +32,41 @@ block content
                 a(href='#{settings.labels[address.a_id].url}', target='_blank')
                   span.fa.fa-question-circle(style='margin-left:5px;')
       table.table.table-bordered.table-striped.summary-table 
-        thead
-          tr
+        tr
+          if settings.show_sent_received == true
+            th #{settings.locale.total_sent} (#{settings.symbol})
+            td #{sent.toFixed(8)}
+          if address.a_id !== 'coinbase'
             if settings.show_sent_received == true
-              th #{settings.locale.total_sent} (#{settings.symbol})
-            if address.a_id !== 'coinbase'
-              if settings.show_sent_received == true
-                th #{settings.locale.total_received} (#{settings.symbol})
-              th #{settings.locale.rl_balance} (#{settings.symbol})
-        tbody             
+              th #{settings.locale.total_received} (#{settings.symbol})
+              td #{received.toFixed(8)}
+            th #{settings.locale.rl_balance} (#{settings.symbol})
+            td #{balance.toFixed(8)}
+          if address.a_id !== 'ST2HYE5KMszAdBcGo3kw7Qsb9u1nRQhac4'
+            th Invites Sent
+            td #{inviteSent}
+          if address.a_id !== ('ST2HYE5KMszAdBcGo3kw7Qsb9u1nRQhac4' || 'coinbase')
+            th Invites Received
+            td #{inviteReceived}
+            th Invite Balance
+            td #{inviteBalance} 
+               strong (#{inviteBalance ? inviteBalance - 1 : 0} Available)
+            th Chance of PoG reward
+        if address.a_id !== ('ST2HYE5KMszAdBcGo3kw7Qsb9u1nRQhac4' || 'coinbase')
           tr
-            if settings.show_sent_received == true 
-              td #{sent.toFixed(8)}
-            if address.a_id !== 'coinbase'
-              if settings.show_sent_received == true
-                td #{received.toFixed(8)}
-              td #{balance.toFixed(8)}
+            th Lottery CGS
+            td #{rank ? rank.lotterycgs : '-'}
+            th Lottery Entrants          
+            td #{rank ? rank.lotteryentrants : '-'}
+            th Network Size
+            td #{rank ? rank.ranks[0].networksize : '-'}
+            th Children
+            td #{rank ? rank.ranks[0].children : '-'}
+            th Percentile
+            td #{rank ? rank.ranks[0].percentile : '-'}
+            th CGS
+            td #{rank ? rank.ranks[0].cgs : '-' }
+            td #{rank ? rank.ranks[0].cgspercent * 100 : '-'}%
     .panel.panel-default.hidden-xs
       .panel-heading
         strong #{settings.locale.ex_latest_transactions}
